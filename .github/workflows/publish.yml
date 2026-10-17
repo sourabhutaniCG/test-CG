@@ -21,7 +21,7 @@ on:
         type: choice
         options:
           - none
-          - nisyscfg
+          - nis-123
 
 permissions: {}
 
