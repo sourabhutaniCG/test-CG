@@ -1,0 +1,26 @@
+name: Test Building Python Package
+
+on: [push, pull_request]
+
+jobs:
+  build-and-upload-artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python 3.9
+        uses: ni/python-actions/setup-python@dee640bba235ae28fdc6b7337c643bd06358ae90 # v0.9.0
+        with:
+          python-version: 3.9
+
+      - name: Set up Poetry
+        uses: ni/python-actions/setup-poetry@aa64e60612cb078b0c2ada666becbd70d4817d55 # v0.7.1
+
+      - name: Build packages
+        run: poetry build
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: build artifacts
+          path: dist/
