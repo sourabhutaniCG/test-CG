@@ -79,6 +79,7 @@ jobs:
       contents: read
     with:
       package-name: ${{ needs.get_publish_info.outputs.package-name }}
+  # TODO will enablle analayze and checkdocs in next stories PR.   
   # analyze_package:
   #   name: Analyze package for ${{ needs.get_publish_info.outputs.package-name }}
   #   if: ${{ github.event_name == 'release' || inputs.package-name != 'none' }}
@@ -137,10 +138,8 @@ jobs:
         with:
           name: ${{ needs.get_publish_info.outputs.package-name }}-distribution-packages
           path: dist/*
-          if-no-files-found: error
-          retention-days: 1
   publish_to_pypi:
-    name: Publish ${{ needs.get_publish_info.outputs.package-name }} to PyPI
+    name: Publish ${{ needs.get_publish_info.outputs.package-name }} to ${{ env.environment }}
     if: github.event_name == 'release' || inputs.environment != 'none'
     runs-on: ubuntu-latest
     needs: [get_publish_info, get_package_info, build_package]
@@ -157,14 +156,14 @@ jobs:
       uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
       with:
         name: ${{ needs.get_publish_info.outputs.package-name }}-distribution-packages
-        path: dist
+        path: dist/
     - name: Display distribution packages
-      run: ls -lR dist
+      run: ls -lR dist/
     - name: Upload to ${{ env.environment }}
       uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
       with:
         repository-url: ${{ fromJson(env.environment-info)[env.environment].upload-url }}
-        packages-dir: dist
+        packages-dir: dist/
   update_version:
     name: Update ${{ needs.get_publish_info.outputs.package-name }} version
     if: ${{ github.event_name == 'release' }}
