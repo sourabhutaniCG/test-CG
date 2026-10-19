@@ -75,6 +75,8 @@ jobs:
     if: ${{ github.event_name == 'release' || inputs.package-name != 'none' }}
     uses: ./.github/workflows/get_package_info.yml
     needs: get_publish_info
+    permissions:
+      contents: read
     with:
       package-name: ${{ needs.get_publish_info.outputs.package-name }}
   # TODO: call analyze package post including analyze package file which uses ni/python-actions/analyze-project  
