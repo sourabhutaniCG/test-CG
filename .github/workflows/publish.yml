@@ -85,8 +85,7 @@ jobs:
     name: Build ${{ needs.get_publish_info.outputs.package-name }}
     if: ${{ github.event_name == 'release' || inputs.package-name != 'none' }}
     runs-on: ubuntu-latest
-    # needs: [get_publish_info, get_package_info, analyze_package, check_docs]
-    needs: [get_publish_info, get_package_info]
+    needs: [get_publish_info, get_package_info] # TODO: add analyze package post and check docs to needs
     steps:
       - name: Check out repo
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -123,7 +122,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [get_publish_info, get_package_info, build_package]
     environment:
-      # This logic is duplicated because `name` doesn't support the `env` context.
       # name: ${{ github.event_name == 'release' && 'pypi' || inputs.environment }}
       # url: ${{ fromJson(env.environment-info)[env.environment].base-url }}/p/${{ needs.get_publish_info.outputs.package-name }}
       name: testpypi
