@@ -1,6 +1,6 @@
 [project]
 name = "nis-123"
-version = "0.0.1.dev3"
+version = "1.0.2"
 description = "NI System Configuration Python API"
 readme = "README.md"
 requires-python = '>=3.9,<4.0'
