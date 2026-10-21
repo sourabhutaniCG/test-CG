@@ -98,21 +98,21 @@ jobs:
         if: github.event_name == 'release'
         uses: ni/python-actions/check-project-version@dee640bba235ae28fdc6b7337c643bd06358ae90 # v0.9.0
         with:
-          project-directory: ${{ github.workspace }}
+          project-directory: ${{ github.workspace }}/${{ needs.get_package_info.outputs.package-basepath }}
           expected-version: ${{ needs.get_publish_info.outputs.package-version }}
       - name: Build distribution packages
         run: poetry build
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/${{ needs.get_package_info.outputs.package-basepath }}
       - name: Verify distribution packages
         run: |
           test -n "$(find dist -maxdepth 1 -type f -name '*.whl' -print -quit)"
           test -n "$(find dist -maxdepth 1 -type f -name '*.tar.gz' -print -quit)"
-          ls -l dist
+          ls -l ${{ github.workspace }}/${{ needs.get_package_info.outputs.package-basepath }}/dist
       - name: Upload build artifacts
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ${{ needs.get_publish_info.outputs.package-name }}-distribution-packages
-          path: dist/*
+          path: ${{ github.workspace }}/${{ needs.get_package_info.outputs.package-basepath }}/dist/*
   publish_to_pypi:
     name: Publish ${{ needs.get_publish_info.outputs.package-name }}
     if: ${{ github.event_name == 'release' || inputs.environment != 'none' }}
