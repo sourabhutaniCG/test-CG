@@ -85,7 +85,7 @@ jobs:
     needs: [get_publish_info, get_package_info] # TODO: Add analyze package and check docs to needs
     steps:
       - name: Check out repo
-        uses: actions/checkout@dee640bba235ae28fdc6b7337c643bd06358ae90 # v0.9.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Set up Python
@@ -148,7 +148,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Check out repo
-        uses: actions/checkout@dee640bba235ae28fdc6b7337c643bd06358ae90 # v0.9.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Set up Python
