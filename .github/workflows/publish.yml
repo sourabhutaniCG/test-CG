@@ -61,7 +61,7 @@ jobs:
               exit 1
             fi
 
-            echo "package-name=nisyscfg" >> "$GITHUB_OUTPUT"
+            echo "package-name=nis-123" >> "$GITHUB_OUTPUT"
             echo "package-version=${EVENT_TAG#v}" >> "$GITHUB_OUTPUT"
           else
             echo "package-name=$INPUT_PACKAGE_NAME" >> "$GITHUB_OUTPUT"
