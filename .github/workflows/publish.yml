@@ -107,7 +107,8 @@ jobs:
         run: |
           test -n "$(find dist -maxdepth 1 -type f -name '*.whl' -print -quit)"
           test -n "$(find dist -maxdepth 1 -type f -name '*.tar.gz' -print -quit)"
-          ls -l ${{ github.workspace }}/${{ needs.get_package_info.outputs.package-basepath }}/dist
+          ls -l dist
+        working-directory: ${{ github.workspace }}/${{ needs.get_package_info.outputs.package-basepath }}
       - name: Upload build artifacts
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
