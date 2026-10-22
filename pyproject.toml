@@ -1,5 +1,5 @@
 [project]
-name = "nis-123"
+name = "nisyscfg"
 version = "1.2.3"
 description = "NI System Configuration Python API"
 readme = "README.md"
