@@ -113,7 +113,7 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ${{ needs.get_publish_info.outputs.package-name }}-distribution-packages
-          path: ${{ github.workspace }}/${{ needs.get_package_info.outputs.package-basepath }}/dist/*
+          path: ${{ github.workspace }}/${{ needs.get_package_info.outputs.package-basepath == '.' && 'dist/*' || format('{0}/dist/*', needs.get_package_info.outputs.package-basepath) }}
   publish_to_pypi:
     name: Publish ${{ needs.get_publish_info.outputs.package-name }}
     if: ${{ github.event_name == 'release' || inputs.environment != 'none' }}
