@@ -54,13 +54,14 @@ jobs:
           python -VV
           python -c "import sys; print('Executable:', sys.executable)"
           python -c "import sysconfig; print('Py_GIL_DISABLED:', sysconfig.get_config_var('Py_GIL_DISABLED'))"
-          python -c "import sys; print('GIL enabled:', sys._is_gil_enabled())"
+          python -c "import sys; print('GIL enabled:', sys._is_gil_enabled() if hasattr(sys, '_is_gil_enabled') else 'Not available')"
         shell: bash
 
       - name: Verify Python 3.14t free-threaded interpreter
         if: matrix.python-version == '3.14t'
         run: |
           python -c "import sysconfig; assert sysconfig.get_config_var('Py_GIL_DISABLED') == 1, 'Expected a free-threaded Python build'"
+          python -c "import sys; assert hasattr(sys, '_is_gil_enabled'), 'GIL status API is unavailable'"
           python -c "import sys; assert not sys._is_gil_enabled(), 'Expected the GIL to be disabled'"
           echo "Python 3.14t free-threaded interpreter verified."
         shell: bash
